@@ -3,13 +3,14 @@ import { ReactTrackingContext } from './withTrackingComponentDecorator';
 
 export default function useTracking() {
   const trackingContext = useContext(ReactTrackingContext);
+  const errorText =
+    'Attempting to call `useTracking` without a ReactTrackingContext present.' +
+    'Did you forget to wrap the top of your component tree with `track`?';
 
   if (!(trackingContext && trackingContext.tracking)) {
-    throw new Error(
-      'Attempting to call `useTracking` ' +
-        'without a ReactTrackingContext present. Did you forget to wrap the top of ' +
-        'your component tree with `track`?'
-    );
+    console.warn(errorText);
+    return null;
+    // throw new Error(errorText);
   }
 
   return useMemo(
